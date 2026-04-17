@@ -1,0 +1,155 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and role information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "Full name" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "pharmacist", "staff"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "email", "role"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Retail customer record",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "age": { "type": "number" },
+        "gender": { "type": "string", "enum": ["Male", "Female", "Other"] },
+        "status": { "type": "string", "enum": ["Active", "Inactive"] },
+        "lastVisit": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string", "description": "UID of the staff who created the record" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "age", "gender", "status", "createdBy"]
+    },
+    "Invoice": {
+      "title": "Invoice",
+      "description": "Billing invoice for customer services",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["paid", "pending", "overdue"] },
+        "date": { "type": "string", "format": "date-time" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string" },
+              "price": { "type": "number" }
+            }
+          }
+        }
+      },
+      "required": ["customerId", "amount", "status", "date"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Medicine or retail item",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "salt": { "type": "string" },
+        "manufacturer": { "type": "string" },
+        "hsnCode": { "type": "string" },
+        "gstRate": { "type": "number" },
+        "reorderLevel": { "type": "number" }
+      },
+      "required": ["name", "category", "gstRate"]
+    },
+    "StockBatch": {
+      "title": "StockBatch",
+      "description": "Batch-wise stock for a product",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "batchNumber": { "type": "string" },
+        "expiryDate": { "type": "string", "format": "date" },
+        "purchasePrice": { "type": "number" },
+        "mrp": { "type": "number" },
+        "salePrice": { "type": "number" },
+        "currentStock": { "type": "number" }
+      },
+      "required": ["productId", "batchNumber", "expiryDate", "currentStock"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Medicine supplier/distributor",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "contact": { "type": "string" },
+        "gstNumber": { "type": "string" },
+        "address": { "type": "string" }
+      },
+      "required": ["name", "contact"]
+    },
+    "RetailSale": {
+      "title": "RetailSale",
+      "description": "Pharmacy retail sale record",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": { "type": "string" },
+              "productName": { "type": "string" },
+              "batchNumber": { "type": "string" },
+              "quantity": { "type": "number" },
+              "price": { "type": "number" },
+              "gstAmount": { "type": "number" }
+            }
+          }
+        },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["Cash", "UPI", "Card"] },
+        "date": { "type": "string", "format": "date-time" }
+      },
+      "required": ["totalAmount", "paymentMethod", "date"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Customer records"
+    },
+    "/invoices/{invoiceId}": {
+      "schema": "Invoice",
+      "description": "Billing invoices"
+    },
+    "/inventory/{productId}": {
+      "schema": "Product",
+      "description": "Medicine inventory"
+    },
+    "/inventory/{productId}/batches/{batchId}": {
+      "schema": "StockBatch",
+      "description": "Batch-wise stock"
+    },
+    "/suppliers/{supplierId}": {
+      "schema": "Supplier",
+      "description": "Suppliers list"
+    },
+    "/retail_sales/{saleId}": {
+      "schema": "RetailSale",
+      "description": "Retail sales records"
+    }
+  }
+}
