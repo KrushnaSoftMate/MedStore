@@ -14,7 +14,6 @@ import firebaseConfig from "../../firebase-applet-config.json";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
 
 // Initialize Firestore with settings for offline persistence
 export const db = initializeFirestore(app, {
@@ -22,6 +21,14 @@ export const db = initializeFirestore(app, {
     tabManager: persistentMultipleTabManager(),
   }),
 });
+
+// Add a safety timeout for auth loading
+const timeout = setTimeout(() => {
+  console.warn("Auth initialization is taking longer than expected...");
+}, 5000);
+
+export const auth = getAuth(app);
+clearTimeout(timeout);
 
 export const googleProvider = new GoogleAuthProvider();
 
