@@ -6,6 +6,8 @@ import {
   getDocFromServer, 
   enableIndexedDbPersistence,
   initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
   CACHE_SIZE_UNLIMITED
 } from "firebase/firestore";
 import firebaseConfig from "../../firebase-applet-config.json";
@@ -16,19 +18,9 @@ export const auth = getAuth(app);
 
 // Initialize Firestore with settings for offline persistence
 export const db = initializeFirestore(app, {
-  cacheSizeBytes: CACHE_SIZE_UNLIMITED,
-  localCache: undefined, // Use default for now, or configure specifically if needed
-}, firebaseConfig.firestoreDatabaseId);
-
-// Enable offline persistence
-enableIndexedDbPersistence(db).catch((err) => {
-  if (err.code === 'failed-precondition') {
-    // Multiple tabs open, persistence can only be enabled in one tab at a a time.
-    console.warn("Firestore persistence failed: Multiple tabs open");
-  } else if (err.code === 'unimplemented-state') {
-    // The current browser does not support all of the features required to enable persistence
-    console.warn("Firestore persistence failed: Browser not supported");
-  }
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager(),
+  }),
 });
 
 export const googleProvider = new GoogleAuthProvider();

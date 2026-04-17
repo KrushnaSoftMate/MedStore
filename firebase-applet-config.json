@@ -1,10 +1,9 @@
 {
-  "projectId": "gen-lang-client-0112971238",
-  "appId": "1:650679139957:web:699a9982cd0ffc4166c23c",
-  "apiKey": "AIzaSyAIIAdJedkK_sBvC0H16xWIQQHv4Lal8fM",
-  "authDomain": "gen-lang-client-0112971238.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-ad39d337-532f-4a5f-a5b8-1faac63c0231",
-  "storageBucket": "gen-lang-client-0112971238.firebasestorage.app",
-  "messagingSenderId": "650679139957",
-  "measurementId": ""
+  "apiKey": "AIzaSyAlyUy0Vrx3iofnFOZRjyhU9f1eZLvQGkA",
+  "authDomain": "kripasindhu-pharmacy.firebaseapp.com",
+  "projectId": "kripasindhu-pharmacy",
+  "storageBucket": "kripasindhu-pharmacy.firebasestorage.app",
+  "messagingSenderId": "261730548402",
+  "appId": "1:261730548402:web:11c82a37edfee77084a7ab",
+  "measurementId": "G-1S9YVNPW1X"
 }
